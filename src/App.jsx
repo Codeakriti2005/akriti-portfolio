@@ -1,4 +1,5 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import {
   ArrowRight, BriefcaseBusiness, CheckCircle2, Code2, Database,
@@ -263,27 +264,114 @@ function Certifications() {
     </div>
   </section>;
 }
-
 function Contact() {
-  return <section className="page container">
-    <PageHero icon={<Mail/>} title="Let's Connect" text="Have an opportunity, project or internship in mind? Feel free to reach out." />
-    <div className="contact-grid">
-      <div className="glass-card contact-info">
-        <h2>Get in touch</h2>
-        <p>I'm currently open to learning opportunities, internships and software development roles.</p>
-        <a href="mailto:akritigautam049@gmail.com"><Mail/> akritigautam049@gmail.com</a>
-        <a href="https://www.linkedin.com/in/akriti-gautam-52294b334/" target="_blank" rel="noreferrer"><Linkedin/> LinkedIn</a>
-        <a href="https://github.com/Codeakriti2005" target="_blank" rel="noreferrer"><Github/> github.com/Codeakriti2005</a>
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_wienq1r",
+        "template_fyghxsy",
+        e.target,
+        {
+          publicKey: "VA7v6SyXqMVFflUWf",
+        }
+      )
+      .then(
+        () => {
+          alert("Message sent successfully! 📩");
+          e.target.reset();
+        },
+        (error) => {
+          console.error("FAILED...", error);
+          alert("Message could not be sent. Please try again.");
+        }
+      );
+  };
+
+  return (
+    <section className="page container">
+      <PageHero
+        icon={<Mail />}
+        title="Let's Connect"
+        text="Have an opportunity, project or internship in mind? Feel free to reach out."
+      />
+
+      <div className="contact-grid">
+
+        <div className="glass-card contact-info">
+          <h2>Get in touch</h2>
+
+          <p>
+            I'm currently open to learning opportunities, internships and
+            software development roles.
+          </p>
+
+          <a href="mailto:akritigautam049@gmail.com">
+            <Mail /> akritigautam049@gmail.com
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/akriti-gautam-52294b334/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Linkedin /> LinkedIn
+          </a>
+
+          <a
+            href="https://github.com/Codeakriti2005"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Github /> github.com/Codeakriti2005
+          </a>
+        </div>
+
+        <form
+          className="glass-card contact-form"
+          onSubmit={sendEmail}
+        >
+          <h2>Send a message</h2>
+
+          <label>
+            Name
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Your name"
+            />
+          </label>
+
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="you@example.com"
+            />
+          </label>
+
+          <label>
+            Message
+            <textarea
+              name="message"
+              required
+              rows="5"
+              placeholder="Write your message..."
+            />
+          </label>
+
+          <button className="primary-btn" type="submit">
+            Send Message <Send size={17} />
+          </button>
+        </form>
+
       </div>
-      <form className="glass-card contact-form" onSubmit={(e) => {e.preventDefault(); alert("Thanks! Please connect through email or LinkedIn.");}}>
-        <h2>Send a message</h2>
-        <label>Name<input required placeholder="Your name"/></label>
-        <label>Email<input required type="email" placeholder="you@example.com"/></label>
-        <label>Message<textarea required rows="5" placeholder="Write your message..."/></label>
-        <button className="primary-btn" type="submit">Send Message <Send size={17}/></button>
-      </form>
-    </div>
-  </section>;
+    </section>
+  );
 }
 
 function App() {
